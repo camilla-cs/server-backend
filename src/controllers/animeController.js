@@ -26,8 +26,6 @@ router.get("/random" , async (request, response) => {
 
 }); 
 
-module.exports = {
-    router
-}
+module.exports = router;
 
 

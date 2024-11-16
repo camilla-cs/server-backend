@@ -7,10 +7,10 @@ const {app} = require("./server.js");
 const { dbConnect } = require("./utils/database.js");
 
 // import the router 
-const {router} = require("./controllers/animeController.js"); 
+const animeController = require("./controllers/animeController.js"); 
 //use the router
 // localhost:8080/anime/
-app.use("/anime", router); 
+app.use("/anime", animeController); 
 
 
 const PORT = process.env.PORT || 8080; 
