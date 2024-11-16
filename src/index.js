@@ -1,30 +1,20 @@
 const express = require ("express"); 
 
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+require("dotenv").config(); 
 
-const app = express(); 
-dotenv.config(); 
+// const app = express(); 
+const {app} = require("./server.js"); 
+const { dbConnect } = require("./utils/database.js");
 
 
-const PORT = process.env.PORT || 3000; 
 
-// Middleware to parse JSON data
-app.use(express.json()); 
 
-app.get('/',(request, response) => {
-    response.json({
-        message: "Hello there!"
-    }); 
+const PORT = process.env.PORT || 8080; 
 
-}); 
 
-app.post("/", (request, response) => {
-    response.json({
-        message: "POST request received!"
-    });
-});
+app.listen(PORT,async () => {
 
-app.listen(PORT,() => {
+    await dbConnect();
+
     console.log(`Server is listening on port ${PORT}`);
 });
