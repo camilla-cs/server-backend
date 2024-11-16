@@ -1,15 +1,29 @@
-const express = require("express"); 
+const express = require ("express"); 
+
 const app = express(); 
 
-// const authRoutes = require('./routes/auth'); 
+// const app = express(); 
 
-// server app configuration
-// app.use('/api/auth', authRoutes); 
+app.get("/", (request,response) => {
+    response.json({
+        message: "Last project!"
+    });
+});
+
+app.post("/", (request, response) => {
+    response.json({
+        message:"POST request received!"
+    });
+});
 
 
-// server app configuration is finished
 
-//to export the app 
+// import the router 
+const animeController = require("./controllers/animeController.js"); 
+//use the router
+// localhost:8080/anime/
+app.use("/anime", animeController); 
+
 module.exports = {
     app
 }
