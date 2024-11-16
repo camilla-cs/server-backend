@@ -1,20 +1,11 @@
 const express = require("express"); 
 const app = express(); 
 
+// const authRoutes = require('./routes/auth'); 
+
 // server app configuration
+// app.use('/api/auth', authRoutes); 
 
-app.get('/',(request, response) => {
-    response.json({
-        message: "Hello there!"
-    }); 
-
-}); 
-
-app.post("/", (request, response) => {
-    response.json({
-        message: "POST request received!"
-    });
-});
 
 // server app configuration is finished
 
