@@ -13,10 +13,18 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json()); 
 
 app.get('/',(request, response) => {
-    response.send('Server is running'); 
+    response.json({
+        message: "Hello there!"
+    }); 
 
 }); 
 
+app.post("/", (request, response) => {
+    response.json({
+        message: "POST request received!"
+    });
+});
+
 app.listen(PORT,() => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is listening on port ${PORT}`);
 });

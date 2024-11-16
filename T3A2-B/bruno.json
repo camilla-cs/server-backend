@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "T3A2-B",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
