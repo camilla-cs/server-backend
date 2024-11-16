@@ -3,6 +3,12 @@ const express = require('express');
 // create instance of a router
 const router = express.Router(); 
 
+router.get('/', (request,response) => {
+    response.json ({
+        message: "Anime routes live here!"
+    });
+});
+
 
 
 // Jikan API request
