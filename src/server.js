@@ -1,24 +1,29 @@
-const express = require("express"); 
+const express = require ("express"); 
+
 const app = express(); 
 
-// server app configuration
+// const app = express(); 
 
-app.get('/',(request, response) => {
+app.get("/", (request,response) => {
     response.json({
-        message: "Hello there!"
-    }); 
-
-}); 
-
-app.post("/", (request, response) => {
-    response.json({
-        message: "POST request received!"
+        message: "Last project!"
     });
 });
 
-// server app configuration is finished
+app.post("/", (request, response) => {
+    response.json({
+        message:"POST request received!"
+    });
+});
 
-//to export the app 
+
+
+// import the router 
+const animeController = require("./controllers/animeController.js"); 
+//use the router
+// localhost:8080/anime/
+app.use("/anime", animeController); 
+
 module.exports = {
     app
 }
