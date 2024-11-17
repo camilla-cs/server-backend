@@ -50,6 +50,10 @@ UserSchema.pre("save", function(next) {
 
             //override the cleartext password with the hashed one
             User.password = hash; 
+
+            if (User.isAdmin === undefined){
+                User.isAdmin = false;
+            }
             next(); 
         });
     });

@@ -25,6 +25,7 @@ app.post("/signup", async (request, response) => {
     let username = request.body.username; 
     let password = request.body.password; 
     let email = request.body.email;
+    let isAdmin = request.body.isAdmin;
    
 
     // if they are invalid, throw error 
@@ -35,7 +36,13 @@ app.post("/signup", async (request, response) => {
     }
 
     // make a user in the database using the username and password
-    let newUser = await User.create({username: username, password:password,email:email}); 
+    let newUser = await User.create({
+        username: username, 
+        password:password,
+        email:email,
+        isAdmin:false
+    
+    }); 
 
     // make JWT 
     let newJwt = generateJWT(newUser.id, newUser.username, newUser.email); 

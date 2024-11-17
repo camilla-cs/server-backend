@@ -4,7 +4,7 @@ require("dotenv").config();
 let jwtSecretKey = process.env.JWT_SECRET_KEY; 
 
 
-function generateJWT(userId, username,email, isAdmin) {
+function generateJWT(userId, username,email, isAdmin = false) {
     return jwt.sign({
         userId: userId,
         username: username,
