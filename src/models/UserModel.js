@@ -6,7 +6,7 @@ SALT_WORK_FACTOR=10;
 const UserSchema = new mongoose.Schema({
     username: {
         type:String,
-        required:  true,
+        required:  [true,'Username is missing'],
         minLength: 3,
         unique:true,
         trim: true
@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
 
     email: {
         type: String,
-        required:true, 
+        required:[true,'Email is missing'],
         unique:true,
         match: /.+\@.+\..+/
     },
@@ -26,14 +26,11 @@ const UserSchema = new mongoose.Schema({
         trim:true
     },
 
-    role: {
-        type: String, 
-        enum: {
-            values:['user', 'admin'],
-            default:'user'
-        }
-    },
-    isAdmin:Boolean
+    isAdmin: {
+        type:Boolean,
+        required:true,
+        default:false
+    }
 
 }); 
 
@@ -69,9 +66,9 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
 
 
 // model based on the schema
-const UserModel = mongoose.model("User", UserSchema); 
+const User = mongoose.model("User", UserSchema); 
 
 // export the model 
 module.exports = {
-    UserModel
+    User
 }
