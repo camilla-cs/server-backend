@@ -1,8 +1,10 @@
+// Imports 
 const express = require ("express"); 
 
 const app = express(); 
 
-// const app = express(); 
+// to post json data into the server
+app.use(express.json()); 
 
 app.get("/", (request,response) => {
     response.json({
