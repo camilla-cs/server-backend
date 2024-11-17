@@ -24,6 +24,8 @@ const animeController = require("./controllers/animeController.js");
 // localhost:8080/anime/
 app.use("/anime", animeController); 
 
+
+// export the app so other files can control when to start and end the server
 module.exports = {
     app
 }
