@@ -1,7 +1,7 @@
 // Imports 
 const express = require ("express"); 
 const { User } = require("./models/UserModel.js");
-const { generateJWT, validateUserAuth } = require("./functions/jwtFunctions.js");
+const { generateJWT, validateUserAuth, validateAdminAuth } = require("./functions/jwtFunctions.js");
 
 const app = express(); 
 
@@ -40,7 +40,7 @@ app.post("/signup", async (request, response) => {
         username: username, 
         password:password,
         email:email,
-        isAdmin:false
+        isAdmin:isAdmin
     
     }); 
 
@@ -62,9 +62,14 @@ app.post("/signup", async (request, response) => {
 app.get("/protectedRoute", validateUserAuth, (request, response) => {
     response.json({
         message:"You can see the content because you are signed in."
-    })
-})
+    });
+}); 
 
+app.get("/adminDashboard", validateAdminAuth, (request,response) => {
+    response.json({
+        message:"Welcome back, Admin!"
+    }); 
+}); 
 
 // import the router 
 const animeController = require("./controllers/animeController.js"); 

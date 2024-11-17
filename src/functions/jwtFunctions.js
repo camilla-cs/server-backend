@@ -4,7 +4,7 @@ require("dotenv").config();
 let jwtSecretKey = process.env.JWT_SECRET_KEY; 
 
 
-function generateJWT(userId, username,email, isAdmin = false) {
+function generateJWT(userId, username,email,isAdmin) {
     return jwt.sign({
         userId: userId,
         username: username,
@@ -25,7 +25,7 @@ function decodeJWT (tokenToDecode) {
 }
 
 
-// middleware 
+// middleware for user
 async function validateUserAuth (request, response, next) {
     let providedToken = request.headers.jwt; 
     console.log(providedToken); 
@@ -49,9 +49,33 @@ async function validateUserAuth (request, response, next) {
 
 }
 
+//middleware for admin
+async function validateAdminAuth (request, response, next) {
+    let providedToken = request.headers.jwt;
+
+    if (!providedToken) {
+        return response.status(403).json({
+            message:"Sign in to access the content."
+        });
+    }
+
+    let decodedData = decodeJWT(providedToken); 
+
+    if (decodedData.isAdmin) {
+        next(); 
+    } else {
+        return response.status(403).json({
+            message:"Access denied. Admin only."
+        });
+    }
+}
+
+
+
 module.exports = {
     generateJWT,
     decodeJWT,
-    validateUserAuth
+    validateUserAuth,
+    validateAdminAuth
     
 }
