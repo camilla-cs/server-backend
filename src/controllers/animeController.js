@@ -11,7 +11,7 @@ router.get('/', (request,response) => {
 
 
 
-// Jikan API request
+// Jikan API request for random anime
 router.get("/random" , async (request, response) => {
     let animeData = {};
 
