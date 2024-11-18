@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { User } = require("../models/UserModel");
 
 
+
 // connection to database
 async function dbConnect(){
     console.log(process.env.DATABASE_URL); 
