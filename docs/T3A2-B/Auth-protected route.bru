@@ -1,0 +1,15 @@
+meta {
+  name: Auth-protected route
+  type: http
+  seq: 7
+}
+
+get {
+  url: http://localhost:8080/protectedRoute
+  body: none
+  auth: none
+}
+
+headers {
+  jwt: 
+}
