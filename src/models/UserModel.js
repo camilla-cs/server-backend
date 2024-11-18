@@ -34,11 +34,13 @@ const UserSchema = new mongoose.Schema({
 
 }); 
 
+
+// middleware to hash passwords 
 UserSchema.pre("save", function(next) {
-    const User=this; 
+    const user=this; 
 
     // hash password if it has been modified or new
-    if (!User.isModified('password')) return next(); 
+    if (!user.isModified('password')) return next(); 
 
     //generate salt 
     bcrypt.genSalt(SALT_WORK_FACTOR, function(err,salt) {
