@@ -3,6 +3,8 @@ const express = require ("express");
 const { User } = require("./models/UserModel.js");
 const { generateJWT, validateUserAuth, validateAdminAuth } = require("./functions/jwtFunctions.js");
 const authRoutes = require ( "./routes/auth.js"); 
+const { getAllUsers } = require("./controllers/adminController.js");
+const profileRoutes = require("./routes/profileRoutes.js"); 
 
 const app = express(); 
 
@@ -82,8 +84,15 @@ app.get("/adminDashboard", validateAdminAuth, (request,response) => {
     }); 
 }); 
 
+
+app.use("/profile", profileRoutes); 
+
+app.get("/users", validateAdminAuth,getAllUsers); 
+
+
 // import the router 
 const animeController = require("./controllers/animeController.js"); 
+
 
 
 //use the router
