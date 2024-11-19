@@ -1,11 +1,23 @@
 meta {
   name: Update Profile
   type: http
-  seq: 12
+  seq: 10
 }
 
 put {
-  url: http://localhost:8080/profile/6739b865a1bed34cc0215463
-  body: none
+  url: http://localhost:8080/profile/6739acf9556c97aa1535267d
+  body: json
   auth: none
+}
+
+headers {
+  jwt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzM5YWNmOTU1NmM5N2FhMTUzNTI2N2QiLCJ1c2VybmFtZSI6ImVyZW4iLCJlbWFpbCI6ImVyZW5qYWVnZXJAZ21haWwuY29tIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTczMTkxMTI1OSwiZXhwIjoxNzMxOTQ3MjU5fQ.5ZA5wcGbECRn5zeXn3lLZVY_OwlVmvkCUJD2WKNkcEI
+}
+
+body:json {
+  {
+    "username": "eren",
+    "email": "erenjaeger@gmail.com",
+    "password": "newpassword123"
+  }
 }

@@ -1,0 +1,16 @@
+meta {
+  name: Browse Anime by Title
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://api.jikan.moe/v4/anime?q=Frieren&type=TV
+  body: none
+  auth: none
+}
+
+params:query {
+  q: Frieren
+  type: TV
+}

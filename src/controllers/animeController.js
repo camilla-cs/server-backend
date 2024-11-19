@@ -5,7 +5,7 @@ const browseAnime = async ( request, response) => {
     try {
         // query parameters for Jikan API
         const params = new URLSearchParams(); 
-        if (title) params.appen("title", title); 
+        if (title) params.append("title", title); 
         if (type) params.append("type", type); 
         if (episodes) params.append ("episodes", episodes); 
         if (rating) params.append ("rating", rating); 
@@ -20,15 +20,16 @@ const browseAnime = async ( request, response) => {
 
         // fetch data from Jikan API 
         const apiUrl = `https://api.jikan.moe/v4/anime?${params.toString()}`; 
-        const response = await fetch(apiUrl); 
+        console.log("API URL: ", apiUrl); 
+        const apiResponse = await fetch(apiUrl); 
 
         //chech if response is ok
-        if (!response.ok) {
+        if (!apiResponse.ok) {
             throw new Error (`Failed to fetch anime.`); 
         }
 
         // parse the response as Json 
-        const animeData = await response.json(); 
+        const animeData = await apiResponse.json(); 
 
         //return anime data to the client 
         response.json(animeData); 
@@ -41,6 +42,38 @@ const browseAnime = async ( request, response) => {
     
 }; 
 
+// Fetch genres, themes 
+const getAnimeGenres = async (request, response) => {
+    // accept filter parameter
+    const {filter} = request.query; 
+
+    try {
+        // API URL      // base URL                         // ternary operator. 
+                                                            // checks if the filter variable exists and is truthy. if it exist it append the filter to the url otherwise appends nothing "". 
+        const apiUrl = `https://api.jikan.moe/v4/genres/anime${filter ? `?filter=${filter}` : ""}`; 
+        console.log("API URL: ", apiUrl); 
+
+        //fetch data from jikan api 
+        const apiResponse = await fetch(apiUrl); 
+
+        // check if response is ok 
+        if (!apiResponse.ok) {
+            throw new Error("Failed to fetch anime genres."); 
+
+        }
+
+        // parse json response
+        const genreData = await apiResponse.json(); 
+
+        // return genre data
+        response.json(genreData); 
+    } catch (error) {
+        console.error("Error fetching anime genres: ", error.message); 
+        response.status(500).json({message: error.message}); 
+    }
+}; 
+
 module.exports = {
-    browseAnime
+    browseAnime,
+    getAnimeGenres
 }
