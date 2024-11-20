@@ -3,6 +3,9 @@ const express = require ("express");
 const { User } = require("./models/UserModel.js");
 const { generateJWT, validateUserAuth, validateAdminAuth } = require("./functions/jwtFunctions.js");
 const authRoutes = require ( "./routes/auth.js"); 
+const { getAllUsers } = require("./controllers/adminController.js");
+const profileRoutes = require("./routes/profileRoutes.js"); 
+const animeRoutes = require("./routes/animeRoutes.js"); 
 
 const app = express(); 
 
@@ -82,13 +85,14 @@ app.get("/adminDashboard", validateAdminAuth, (request,response) => {
     }); 
 }); 
 
-// import the router 
-const animeController = require("./controllers/animeController.js"); 
+
+app.use("/profile", profileRoutes); 
+
+app.get("/users", validateAdminAuth,getAllUsers); 
 
 
-//use the router
 // localhost:8080/anime/
-app.use("/anime", animeController); 
+app.use("/anime", animeRoutes); 
 
 
 // export the app so other files can control when to start and end the server

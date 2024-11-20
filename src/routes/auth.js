@@ -1,7 +1,9 @@
 const express = require ("express"); 
 const bcrypt = require("bcryptjs"); 
 const {User} = require ("../models/UserModel.js"); 
-const {generateJWT} = require("../functions/jwtFunctions.js"); 
+const {generateJWT, validateAdminAuth} = require("../functions/jwtFunctions.js"); 
+const { getAllUsers } = require("../controllers/adminController.js");
+
 
 const router = express.Router(); 
 
@@ -48,5 +50,6 @@ router.post("/login", async (request, response) => {
 
     
 }); 
+
 
 module.exports = router; 

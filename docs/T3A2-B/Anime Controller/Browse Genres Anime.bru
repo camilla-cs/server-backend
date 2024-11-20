@@ -1,0 +1,15 @@
+meta {
+  name: Browse Genres Anime
+  type: http
+  seq: 4
+}
+
+get {
+  url: https://api.jikan.moe/v4/genres/anime?filter=genres
+  body: none
+  auth: none
+}
+
+params:query {
+  filter: genres
+}
