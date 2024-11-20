@@ -1,3 +1,4 @@
+// browse anime
 const browseAnime = async ( request, response) => {
     const {title, type, episodes, rating, score, rank, synopsis, year,studios, genres, themes } = request.query; 
 
@@ -114,8 +115,57 @@ const getTopAnime = async (request , response) => {
 
 };
 
+// get anime recommendations based on title 
+const getAnimeRecommendations = async (request, response) => {
+    // get title from query params
+    const {title} = request.query; 
+
+    try {
+        if(!title) {
+            return response.status(400).json({message:"Title is required to fetch recommendations. "}); 
+        }
+
+        // search anime title to get mal_id 
+        const searchUrl = `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(title)}`; 
+        const searchResponse = await fetch (searchUrl); 
+
+        if (!searchResponse.ok) {
+            throw new Error ("Failed to fetch anime details."); 
+
+        }
+
+        const searchData = await searchResponse.json(); 
+
+        if (!searchData.data || searchData.data.length === 0) {
+            return response.status(404).json({message: "Anime not found."}); 
+
+        }
+
+        // get mal_id
+        const mal_id = searchData.data[0].mal_id; 
+
+        // get recommendations based on mal_id
+        const recommendationsUrl = `https://api.jikan.moe/v4/anime/${mal_id}/recommendations`;
+        const recommendationsResponse = await fetch (recommendationsUrl); 
+
+        if (!recommendationsResponse.ok) {
+            throw new Error ("Failed to fetch anime recommendations."); 
+        }
+
+        const recommendationsData = await recommendationsResponse.json(); 
+
+        // return recommendations to the user
+        response.json (recommendationsData); 
+
+    } catch (error) {
+        console.error("Error fetching anime recommendations: ", error.message); 
+        response.status(500).json({message: error.message}); 
+    }
+}; 
+
 module.exports = {
     browseAnime,
     getAnimeGenres,
     getTopAnime,
+    getAnimeRecommendations,
 }

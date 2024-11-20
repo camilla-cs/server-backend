@@ -1,5 +1,5 @@
 const express = require('express'); 
-const { browseAnime, getAnimeGenres, getTopAnime } = require('../controllers/animeController');
+const { browseAnime, getAnimeGenres, getTopAnime, getAnimeRecommendations } = require('../controllers/animeController');
 
 // create instance of a router
 const router = express.Router(); 
@@ -32,6 +32,8 @@ router.get("/browse/", browseAnime);
 router.get("/genres", getAnimeGenres); 
 
 router.get("/top", getTopAnime); 
+
+router.get ("/recommendations", getAnimeRecommendations);
 
 module.exports = router;
 

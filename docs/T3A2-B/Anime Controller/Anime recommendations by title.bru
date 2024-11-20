@@ -1,0 +1,15 @@
+meta {
+  name: Anime recommendations by title
+  type: http
+  seq: 10
+}
+
+get {
+  url: http://localhost:8080/anime/recommendations?title=Attack on Titan
+  body: none
+  auth: none
+}
+
+params:query {
+  title: Attack on Titan
+}
