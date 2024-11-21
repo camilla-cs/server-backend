@@ -1,5 +1,5 @@
 const express = require ("express"); 
-const User = require ( "../models/UserModel.js"); 
+const {User} = require ( "../models/UserModel.js"); 
 
 // fetch all users
 const getAllUsers = async (request, response) => {

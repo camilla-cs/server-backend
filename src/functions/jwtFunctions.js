@@ -36,15 +36,15 @@ async function validateUserAuth (request, response, next) {
         });
     }
 
-    let decodedData = decodeJWT(providedToken); 
-    console.log(decodedData); 
-    if (decodedData.userId){
+    try {
+        const decodedData = decodeJWT(providedToken); 
+        request.user = {
+            userId : decodedData.userId,
+            isAdmin: decodedData.isAdmin
+        }; 
         next(); 
-
-    } else {
-        return response.status(403).json({
-            message:"Sign in to view the content."
-        });
+    } catch (error) {
+        response.status(403).json({message: "Invalid or expired token. "}); 
     }
 
 }

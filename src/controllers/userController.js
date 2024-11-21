@@ -61,6 +61,16 @@ const updateProfile = async (request, response) => {
 // Delete profile
 const deleteProfile = async (request, response) => {
     try {
+
+        // Get user ID and admin status from JWT
+        const {userId, isAdmin} = request.user; 
+
+        // check if the user is authorized
+        if (request.params.id !== userId && !isAdmin) {
+            return response.status(403).json({message:"You are not authorized to delete this profile."}); 
+        }
+
+        //delete the user
         const user = await User.findByIdAndDelete(request.params.id); 
         if (!user) return response.status(404).json({message:"User not found."}); 
 

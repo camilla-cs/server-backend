@@ -72,9 +72,9 @@ app.use ("/auth", authRoutes);
 
 
 // Protected route requires user auth
-app.get("/protectedRoute", validateUserAuth, (request, response) => {
+app.get("/userDashboard", validateUserAuth, (request, response) => {
     response.json({
-        message:"You can see the content because you are signed in."
+        message:"Welcome to the user dashboard!"
     });
 }); 
 
