@@ -2,7 +2,7 @@ const mongoose = require ("mongoose");
 
 //schema
 const ListSchema = new mongoose.Schema({
-    Title: {
+    name: {
         type: String,
         required: [true, "List name is required. "]
     },

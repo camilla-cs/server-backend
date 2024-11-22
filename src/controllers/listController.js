@@ -84,6 +84,7 @@ const updateList = async (request, response) => {
 // delete a list
 const deleteList = async (request, response) => {
     try {
+        // fetch list ID
         const list = await List.findById(request.params.id); 
 
         if (!list) { 
@@ -94,14 +95,21 @@ const deleteList = async (request, response) => {
 
         //check if the user owns the list or is admin
         const {userId, isAdmin} = request.user; 
-        if (list.createdBy.toString() !== userId && isAdmin) {
+
+        console.log("List createdBy: ", list.createdBy.toString());
+        console.log("Requesting user id: ", userId); 
+        console.log("Is Admin: ", isAdmin); 
+
+        //auth check where only the list owner or admin can delete the list
+        if (list.createdBy.toString() !== userId && !isAdmin) {
             return response.status(403).json({message:"You are not authorized to delete the list."}); 
         }
 
-        await list.remove(); 
-        response.json({message:"List deleted."}); 
+        // delete the list
+        await list.deleteOne(); 
+        return response.json({message:"List deleted."}); 
     } catch (error) {
-        response.status(500).json({message:"Failed to delete list."}); 
+        response.status(500).json({message:"Failed to delete list.", error:error.message}); 
     }
 }; 
 

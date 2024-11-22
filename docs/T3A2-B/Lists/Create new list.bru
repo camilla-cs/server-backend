@@ -1,0 +1,23 @@
+meta {
+  name: Create new list
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/lists
+  body: json
+  auth: none
+}
+
+headers {
+  jwt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzNhODkyY2MwMzUxM2U5NjEzZjNjZWYiLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwiZW1haWwiOiJ0ZXN0dXNlckBoZWxsby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzMyMjM2MDA0LCJleHAiOjE3MzIyNzIwMDR9.HfRQevfmlV_kFh3QlW-N6OabtKDXfyTGq3MWHEI9Ni8
+}
+
+body:json {
+  {
+    "name" : "Favorite Anime 2024",
+    "animeTitles": ["Chainsaw Man", "Frieren:Beyond Journey's End", "From me to you", "Demon Slayer"], 
+    "isPublic": false
+  }
+}
