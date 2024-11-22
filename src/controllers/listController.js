@@ -3,13 +3,14 @@ const List = require ("../models/ListModel.js");
 // create a new list
 const createList = async (request, response) => {
     const {name, animeTitles, isPublic} = request.body; 
-    const {userId} = request.user; 
+    const {userId, username} = request.user; 
 
     try {
         const newList = await List.create({
             name, 
             animeTitles, 
             createdBy: userId,
+            username, 
             isPublic
         });
 
@@ -44,6 +45,23 @@ const getListById = async (request , response) => {
         response.json({list}); 
     } catch (error) {
         response.status(500).json({mesesage:error.message}); 
+    }
+}; 
+// Get lists created by user 
+const getUserLists = async (request, response) => {
+    const {userId} = request.user; 
+
+    try {
+        //find lists created by user
+        const userLists = await List.find({createdBy: userId}).populate("createdBy: ", "username email"); 
+
+        // return the lists
+        response.json ({lists: userLists}); 
+
+
+    } catch (error) {
+        console.error("Error fetching user's lists.", error.message); 
+        response.status(500).json({message:error.message})
     }
 }; 
 
@@ -117,6 +135,7 @@ module.exports = {
     createList,
     getLists, 
     getListById, 
+    getUserLists,
     updateList, 
     deleteList
 }; 

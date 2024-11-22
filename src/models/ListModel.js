@@ -17,14 +17,28 @@ const ListSchema = new mongoose.Schema({
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true
+        required: true,
+      
+    },
+
+    username: {
+        type:String, 
+        required:true
+
     },
 
     isPublic: {
         type: Boolean,
         default: false
     },
-}); 
+    
+    
+    
+},{
+    strictPopulate: false
+}
+
+); 
 
 const List = mongoose.model("List", ListSchema); 
 
