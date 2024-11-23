@@ -18,7 +18,7 @@ const createPost= async (request, response) => {
             createdBy: userId
         }); 
 
-        response.status(201).json({message: "News post created."}); 
+        response.status(201).json({message: "News post created.", post}); 
     } catch (error) {
         response.status(500).json({message: "Failed to create post. ", error:error.message}); 
     }
@@ -67,13 +67,17 @@ const updatePost= async (request, response) => {
 
 //delete a post (admin only)
 const deletePost = async (request, response) => {
-    const {userId, isAdmin} = request.body; 
+    const {userId, isAdmin} = request.user; 
 
     try {
+        // fetch post by ID
+        const post = await Post.findById(request.params.id); 
+
+        // admin and post check 
         if(!isAdmin) {
             return response.status(403).json({message:"You are not authorized to delete posts."}); 
         }
-        const post = await Post.findById(request.params.id); 
+        
 
         if (!post) {
             return response.status(404).json({message:"Post not found."});

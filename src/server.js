@@ -7,6 +7,7 @@ const { getAllUsers } = require("./controllers/adminController.js");
 const profileRoutes = require("./routes/profileRoutes.js"); 
 const animeRoutes = require("./routes/animeRoutes.js"); 
 const listRoutes = require ("./routes/listRoutes.js"); 
+const postRoutes = require ("./routes/postRoutes.js"); 
 
 const app = express(); 
 
@@ -98,6 +99,8 @@ app.use("/anime", animeRoutes);
 //list routes
 app.use("/lists", listRoutes); 
 
+// post routes
+app.use("/posts", postRoutes); 
 
 // export the app so other files can control when to start and end the server
 module.exports = {

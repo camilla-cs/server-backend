@@ -1,0 +1,22 @@
+meta {
+  name: Create a Post (admin only)
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/posts
+  body: json
+  auth: none
+}
+
+headers {
+  jwt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzM5YzIwZTI0OTVlMDVjNjA0YTY2ZmMiLCJ1c2VybmFtZSI6IkNhbWlsbGEiLCJlbWFpbCI6ImNhbWlsbGFkcEBnbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3MzIzNDY0MDYsImV4cCI6MTczMjM4MjQwNn0.6g21Ic-iHoAsiBbILfMe7HHc-Hr3oRvSVO3uOPE-ezA
+}
+
+body:json {
+  {
+    "title":"Winter ❄️ 2024 Best Anime", 
+    "content": "For this winter there have been few anime that stood out! /nHighly anticipated Solo Leveling (Season 2 incoming) definitely takes the cake for the best winter 2024 anime./nFirstly a web manga, now animated by A-1 Pictures studios, narrates the life of the main protagonist, Sung Jin-Woo, an E-Rank hunter dubbed as the weakest hunter of mankind, which was at a precipice when monsters linked to other dimensions started to appear into our world, and the humans who had supernatural powers were called hunters. /nJi-Woo and his party came across a mysterious system while exploring a dungeon, a system which only him can see and promises him the power he has long dreamed of. But everything comes at a price. "
+  }
+}
