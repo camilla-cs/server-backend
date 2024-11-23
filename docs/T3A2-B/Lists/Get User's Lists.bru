@@ -1,0 +1,15 @@
+meta {
+  name: Get User's Lists
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://localhost:8080/lists/myLists
+  body: none
+  auth: none
+}
+
+headers {
+  jwt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzNmZTk3YzRlODk0MTE5ZGE5YWQyM2MiLCJ1c2VybmFtZSI6ImpvaGFuIiwiZW1haWwiOiJqb2hhbmJveUBoZWxsby5jb20iLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzMyMjQ2ODQ0LCJleHAiOjE3MzIyODI4NDR9.aLiwj3DSrf6dclp7XlEFtZBoOwTD6LrZIkb1fIKvkxw
+}

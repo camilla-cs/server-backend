@@ -1,0 +1,24 @@
+meta {
+  name: Create new list
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/lists
+  body: json
+  auth: none
+}
+
+headers {
+  jwt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzNmZTkyNjRlODk0MTE5ZGE5YWQyM2EiLCJ1c2VybmFtZSI6IlJvc2FubmEiLCJlbWFpbCI6InJvc2FubmFyb3NhQGhlbGxvLmNvbSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE3MzIyNDU0NTEsImV4cCI6MTczMjI4MTQ1MX0.ER5NfQFH7XGeZ1m6nLb0xhbT851MgG7ZDbhRLu0q28k
+}
+
+body:json {
+  {
+    "name" : "Cute Anime",
+    "animeTitles": ["Pretty Soldier Sailor Moon", "Pretty Cure", "Tokyo Mew Mew"], 
+    "username":"Rosanna",
+    "isPublic": false
+  }
+}

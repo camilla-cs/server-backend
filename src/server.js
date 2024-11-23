@@ -6,10 +6,11 @@ const authRoutes = require ( "./routes/auth.js");
 const { getAllUsers } = require("./controllers/adminController.js");
 const profileRoutes = require("./routes/profileRoutes.js"); 
 const animeRoutes = require("./routes/animeRoutes.js"); 
+const listRoutes = require ("./routes/listRoutes.js"); 
 
 const app = express(); 
 
-// to post json data into the server
+// middleware to post json data into the server
 app.use(express.json()); 
 
 // Root route
@@ -93,6 +94,9 @@ app.get("/users", validateAdminAuth,getAllUsers);
 
 // localhost:8080/anime/
 app.use("/anime", animeRoutes); 
+
+//list routes
+app.use("/lists", listRoutes); 
 
 
 // export the app so other files can control when to start and end the server
