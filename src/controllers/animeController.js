@@ -38,21 +38,20 @@ const browseAnime = async ( request, response) => {
 // Fetch anime by filter 
 const getAnimeByGenre = async (request, response) => {
     // // accept filter parameter
-    const {genre, year} = request.query; 
+    const {genre} = request.query; 
 
     console.log("Received genre parameter:", genre); 
 
     try {
 
-        if (!genre) {
-            return response.status(400).json({ message: "Genre is required to fetch anime by genre." });
+        if (!genre ) {
+            return response.status(400).json({ message: "Provide a genre." });
         }
         
          // Construct the query parameters
          const params = new URLSearchParams();
          params.append("genres", genre); // Append genre
-         if (year) params.append("start_date", `${year}-01-01`); // Filter by start year if provided
- 
+
         // API URL      // base URL                         // ternary operator. 
                                                             // checks if the filter variable exists and is truthy. if it exist it append the filter to the url otherwise appends nothing "". 
         // const apiUrl = `https://api.jikan.moe/v4/genres/anime${filter ? `?filter=${filter}` : ""}`; 
