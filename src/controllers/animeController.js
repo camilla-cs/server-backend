@@ -1,22 +1,13 @@
 // browse anime
 const browseAnime = async ( request, response) => {
-    const {title, type, episodes, rating, score, rank, synopsis, year,studios, genres, themes } = request.query; 
+    const {title } = request.query; 
 
 
     try {
         // query parameters for Jikan API
         const params = new URLSearchParams(); 
+        params.append("q", title);
         if (title) params.append("title", title); 
-        if (type) params.append("type", type); 
-        if (episodes) params.append ("episodes", episodes); 
-        if (rating) params.append ("rating", rating); 
-        if (score) params.append("score",score); 
-        if (rank) params.append("rank", rank); 
-        if (synopsis) params.append("synopsis", synopsis); 
-        if (year) params.append("year", year); 
-        if (studios) params.append("studios", studios); 
-        if (genres) params.append("genres", genres); 
-        if (themes) params.append("themes", themes); 
         
 
         // fetch data from Jikan API 
@@ -43,15 +34,29 @@ const browseAnime = async ( request, response) => {
     
 }; 
 
-// Fetch genres, themes 
-const getAnimeGenres = async (request, response) => {
-    // accept filter parameter
-    const {filter} = request.query; 
+
+// Fetch anime by filter 
+const getAnimeByGenre = async (request, response) => {
+    // // accept filter parameter
+    const {genre, year} = request.query; 
+
+    console.log("Received genre parameter:", genre); 
 
     try {
+
+        if (!genre) {
+            return response.status(400).json({ message: "Genre is required to fetch anime by genre." });
+        }
+        
+         // Construct the query parameters
+         const params = new URLSearchParams();
+         params.append("genres", genre); // Append genre
+         if (year) params.append("start_date", `${year}-01-01`); // Filter by start year if provided
+ 
         // API URL      // base URL                         // ternary operator. 
                                                             // checks if the filter variable exists and is truthy. if it exist it append the filter to the url otherwise appends nothing "". 
-        const apiUrl = `https://api.jikan.moe/v4/genres/anime${filter ? `?filter=${filter}` : ""}`; 
+        // const apiUrl = `https://api.jikan.moe/v4/genres/anime${filter ? `?filter=${filter}` : ""}`; 
+        const apiUrl = `https://api.jikan.moe/v4/anime?${params.toString()}`;
         console.log("API URL: ", apiUrl); 
 
         //fetch data from jikan api 
@@ -59,7 +64,7 @@ const getAnimeGenres = async (request, response) => {
 
         // check if response is ok 
         if (!apiResponse.ok) {
-            throw new Error("Failed to fetch anime genres."); 
+            throw new Error("Failed to fetch anime."); 
 
         }
 
@@ -67,9 +72,10 @@ const getAnimeGenres = async (request, response) => {
         const genreData = await apiResponse.json(); 
 
         // return genre data
-        response.json(genreData); 
+        // response.json(genreData); 
+        response.json({genres: genreData.data}); 
     } catch (error) {
-        console.error("Error fetching anime genres: ", error.message); 
+        console.error("Error fetching anime: ", error.message); 
         response.status(500).json({message: error.message}); 
     }
 }; 
@@ -114,6 +120,19 @@ const getTopAnime = async (request , response) => {
    
 
 };
+
+const getRandomAnime = async (request, response) => {
+    let animeData = {};
+
+    let randomNumber = Math.floor(Math.random() * 1025) + 1; 
+    let responseData = await fetch ("https://api.jikan.moe/v4/anime/" + randomNumber);
+    animeData = await responseData.json(); 
+
+
+    response.json({
+        result:animeData
+    })
+}; 
 
 // get anime recommendations based on title 
 const getAnimeRecommendations = async (request, response) => {
@@ -165,7 +184,8 @@ const getAnimeRecommendations = async (request, response) => {
 
 module.exports = {
     browseAnime,
-    getAnimeGenres,
+    getAnimeByGenre,
     getTopAnime,
     getAnimeRecommendations,
+    getRandomAnime
 }

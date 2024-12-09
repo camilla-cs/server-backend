@@ -1,5 +1,6 @@
 // Imports 
 const express = require ("express"); 
+const cors = require('cors'); 
 const { User } = require("./models/UserModel.js");
 const { generateJWT, validateUserAuth, validateAdminAuth } = require("./functions/jwtFunctions.js");
 const authRoutes = require ( "./routes/auth.js"); 
@@ -11,6 +12,7 @@ const postRoutes = require ("./routes/postRoutes.js");
 
 const app = express(); 
 
+app.use(cors()); 
 // middleware to post json data into the server
 app.use(express.json()); 
 
@@ -43,7 +45,14 @@ app.post("/signup", async (request, response) => {
             message: "Incorrect or missing credentials."
         }); 
     }
-
+    
+    try {
+    // check if user already exist by email 
+        const existingUser = await User.findOne({email}); 
+        if (existingUser) {
+            return response.status(409).json({message:"Email already in use. "}); 
+        }
+        
     // make a user in the database using the username and password
     let newUser = await User.create({
         username: username, 
@@ -67,6 +76,11 @@ app.post("/signup", async (request, response) => {
             
         }
     });
+    } catch (error) {
+        console.error ("Error creating user:", error.message);
+        response.status(500).json({message:"Server error, please try again later."}); 
+    }
+   
 });
 
 // Authentication routes
