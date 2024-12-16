@@ -9,6 +9,7 @@ const profileRoutes = require("./routes/profileRoutes.js");
 const animeRoutes = require("./routes/animeRoutes.js"); 
 const listRoutes = require ("./routes/listRoutes.js"); 
 const postRoutes = require ("./routes/postRoutes.js"); 
+const { getUserLists } = require("./controllers/listController.js");
 
 const app = express(); 
 
@@ -101,10 +102,10 @@ app.get("/adminDashboard", validateAdminAuth, (request,response) => {
     }); 
 }); 
 
-
+// profile route for authenticated users
 app.use("/profile", profileRoutes); 
 
-app.get("/users", validateAdminAuth,getAllUsers); 
+
 
 
 // localhost:8080/anime/
@@ -113,6 +114,7 @@ app.use("/anime", animeRoutes);
 //list routes
 app.use("/lists", listRoutes); 
 
+app.get("/lists/user", validateUserAuth, getUserLists);
 // post routes
 app.use("/posts", postRoutes); 
 

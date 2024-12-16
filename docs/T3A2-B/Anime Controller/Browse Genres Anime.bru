@@ -5,11 +5,12 @@ meta {
 }
 
 get {
-  url: https://api.jikan.moe/v4/genres/anime?filter=genres
+  url: http://localhost:8080/anime/genre?genre&year=2023
   body: none
   auth: none
 }
 
 params:query {
-  filter: genres
+  genre: 
+  year: 2023
 }

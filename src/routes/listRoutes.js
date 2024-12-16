@@ -9,13 +9,13 @@ const router = express.Router();
 
 // routes for lists
 //get user's lists
-router.get("/myLists", validateUserAuth, getUserLists); 
+router.get("/lists/user", validateUserAuth, getUserLists); 
 
 //create new list
 router.post ("/", validateUserAuth, createList); 
 
-//get all lists
-router.get("/",validateUserAuth , getLists); 
+// //get all lists
+// router.get("/lists/user",validateUserAuth , getLists); 
 
 //get list by id
 router.get("/:id", validateUserAuth, getListById); 

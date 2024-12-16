@@ -27,47 +27,57 @@ function decodeJWT (tokenToDecode) {
 
 // middleware for user
 async function validateUserAuth (request, response, next) {
-    let providedToken = request.headers.jwt; 
-    console.log(providedToken); 
+    const authHeader = request.headers.authorization;
 
-    if (!providedToken) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
         return response.status(403).json({
-            message:"Sign in to view the content."
+          message: "Sign in to view the content.",
         });
     }
+    // Extract token
+    const providedToken = authHeader.split(" ")[1]; 
 
     try {
-        const decodedData = decodeJWT(providedToken); 
-        request.user = {
-            userId : decodedData.userId,
-            username:decodedData.username,
-            isAdmin: decodedData.isAdmin
-        }; 
-        next(); 
-    } catch (error) {
-        response.status(403).json({message: "Invalid or expired token. "}); 
-    }
+        const decodedData = decodeJWT(providedToken);
+        console.log("Decoded token data:", decodedData);
 
+        request.user = {
+            userId: decodedData.userId,
+            username: decodedData.username,
+            isAdmin: decodedData.isAdmin,
+        };
+        next();
+    } catch (error) {
+        console.error("JWT validation error:", error.message);
+        response.status(403).json({ message: "Invalid or expired token." });
+    }
 }
 
 //middleware for admin
 async function validateAdminAuth (request, response, next) {
-    let providedToken = request.headers.jwt;
+    const authHeader = request.headers.authorization;
 
-    if (!providedToken) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
         return response.status(403).json({
-            message:"Sign in to access the content."
+            message: "Sign in to access the content.",
         });
     }
 
-    let decodedData = decodeJWT(providedToken); 
+    const providedToken = authHeader.split(" ")[1];
 
-    if (decodedData.isAdmin) {
-        next(); 
-    } else {
-        return response.status(403).json({
-            message:"Access denied. Admin only."
-        });
+    try {
+        const decodedData = decodeJWT(providedToken);
+
+        if (!decodedData.isAdmin) {
+            return response.status(403).json({
+                message: "Access denied. Admin only.",
+            });
+        }
+
+        request.user = decodedData;
+        next();
+    } catch (error) {
+        response.status(403).json({ message: "Invalid or expired token." });
     }
 }
 

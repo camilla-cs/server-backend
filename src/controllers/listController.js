@@ -2,15 +2,14 @@ const List = require ("../models/ListModel.js");
 
 // create a new list
 const createList = async (request, response) => {
+
     const {name, animeTitles, isPublic} = request.body; 
-    const {userId, username} = request.user; 
+   
 
     try {
         const newList = await List.create({
             name, 
             animeTitles, 
-            createdBy: userId,
-            username, 
             isPublic
         });
 
@@ -24,7 +23,7 @@ const createList = async (request, response) => {
 // get all lists 
 const getLists = async (request, response) => {
     try {
-        const lists = await List.find().populate("createdBy", "username email"); 
+        const lists = await List.find(); 
         response.json({lists}); 
 
     } catch (error) {
@@ -35,7 +34,7 @@ const getLists = async (request, response) => {
 // get specific list
 const getListById = async (request , response) => {
     try {
-        const list = await List.findById(request.params.id).populate ("createdBy", "username email"); 
+        const list = await List.findById(request.params.id); 
 
         if(!list) {
             return response.status(404).json({message: "List not found."}); 
@@ -47,11 +46,18 @@ const getListById = async (request , response) => {
         response.status(500).json({mesesage:error.message}); 
     }
 }; 
+
 // Get lists created by user 
 const getUserLists = async (request, response) => {
     const {userId} = request.user; 
 
     try {
+
+        console.log ("Fetching user with userId: ", userId); 
+
+        if (!userId) {
+            return response.status(400).json({message:"User id is required. "}); 
+        }
         //find lists created by user
         const userLists = await List.find({createdBy: userId}).populate("createdBy: ", "username email"); 
 
