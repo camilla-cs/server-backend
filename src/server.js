@@ -4,7 +4,7 @@ const cors = require('cors');
 const { User } = require("./models/UserModel.js");
 const { generateJWT, validateUserAuth, validateAdminAuth } = require("./functions/jwtFunctions.js");
 const authRoutes = require ( "./routes/auth.js"); 
-const { getAllUsers } = require("./controllers/adminController.js");
+// const { getAllUsers } = require("./controllers/adminController.js");
 const profileRoutes = require("./routes/profileRoutes.js"); 
 const animeRoutes = require("./routes/animeRoutes.js"); 
 const listRoutes = require ("./routes/listRoutes.js"); 
@@ -20,16 +20,11 @@ app.use(express.json());
 // Root route
 app.get("/", (request,response) => {
     response.json({
-        message: "Welocome to the last project!"
+        message: "Welcome to the last project!"
     });
 });
 
-// Test POST route
-app.post("/", (request, response) => {
-    response.json({
-        message:"POST request received!"
-    });
-});
+
 
 // Sign up route for user and admin 
 app.post("/signup", async (request, response) => {
@@ -42,7 +37,7 @@ app.post("/signup", async (request, response) => {
 
     // if they are invalid, throw error 
     if (!username ||!email || !password) {
-        response.status(400).json({
+        return response.status(400).json({
             message: "Incorrect or missing credentials."
         }); 
     }
@@ -79,7 +74,7 @@ app.post("/signup", async (request, response) => {
     });
     } catch (error) {
         console.error ("Error creating user:", error.message);
-        response.status(500).json({message:"Server error, please try again later."}); 
+        return response.status(500).json({message:"Server error, please try again later."}); 
     }
    
 });
@@ -90,14 +85,14 @@ app.use ("/auth", authRoutes);
 
 // Protected route requires user auth
 app.get("/userDashboard", validateUserAuth, (request, response) => {
-    response.json({
+    return response.json({
         message:"Welcome to the user dashboard!"
     });
 }); 
 
 // Admin dashboard route (only admin)
 app.get("/adminDashboard", validateAdminAuth, (request,response) => {
-    response.json({
+    return response.json({
         message:"Welcome back, Admin!"
     }); 
 }); 

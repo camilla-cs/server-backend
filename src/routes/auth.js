@@ -2,7 +2,7 @@ const express = require ("express");
 const bcrypt = require("bcryptjs"); 
 const {User} = require ("../models/UserModel.js"); 
 const {generateJWT, validateAdminAuth} = require("../functions/jwtFunctions.js"); 
-const { getAllUsers } = require("../controllers/adminController.js");
+// const { getAllUsers } = require("../controllers/adminController.js");
 
 
 const router = express.Router(); 
@@ -21,7 +21,8 @@ router.post("/login", async (request, response) => {
         // find user by email 
         const user = await User.findOne({email}); 
         if (!user) {
-            return response.status(404).json({message: "User not found."}); 
+            return response.status(404).json({message: "User not found."});
+            
         }
 
         // compare passwords 

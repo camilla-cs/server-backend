@@ -30,16 +30,17 @@ async function validateUserAuth (request, response, next) {
     const authHeader = request.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return response.status(403).json({
-          message: "Sign in to view the content.",
+        return response.status(401).json({
+          message: "Unauthorized: No token provided",
         });
     }
     // Extract token
     const providedToken = authHeader.split(" ")[1]; 
+    if (!providedToken) return response.status(401).json({ message: "Unauthorized: No token provided" });
 
     try {
         const decodedData = decodeJWT(providedToken);
-        console.log("Decoded token data:", decodedData);
+        // console.log("Decoded token data:", decodedData);
 
         request.user = {
             userId: decodedData.userId,

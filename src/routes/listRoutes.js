@@ -8,14 +8,10 @@ const { createList, getLists, getListById, updateList, deleteList, getUserLists 
 const router = express.Router(); 
 
 // routes for lists
-//get user's lists
-router.get("/lists/user", validateUserAuth, getUserLists); 
-
 //create new list
 router.post ("/", validateUserAuth, createList); 
-
-// //get all lists
-// router.get("/lists/user",validateUserAuth , getLists); 
+//get user's lists
+router.get("/lists/user", validateUserAuth, getUserLists); 
 
 //get list by id
 router.get("/:id", validateUserAuth, getListById); 
@@ -25,6 +21,15 @@ router.put("/:id", validateUserAuth, updateList);
 
 //delete a list
 router.delete("/:id", validateUserAuth, deleteList); 
+
+
+
+
+
+// //get all lists
+// router.get("/lists/user",validateUserAuth , getLists); 
+
+
 
 module.exports = router; 
 

@@ -31,7 +31,7 @@ const getLists = async (request, response) => {
     }
 }; 
 
-// get specific list
+ // get specific list
 const getListById = async (request , response) => {
     try {
         const list = await List.findById(request.params.id); 

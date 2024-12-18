@@ -8,7 +8,7 @@ const createPost= async (request, response) => {
 
     try {
         if (!isAdmin) {
-            return response.status(403).json({message:"You are not authorized to create posts."}); 
+            return response.status(403).json({message:"Invalid or expired token."}); 
 
         }
 
@@ -18,9 +18,9 @@ const createPost= async (request, response) => {
             createdBy: userId
         }); 
 
-        response.status(201).json({message: "News post created.", post}); 
+       return response.status(201).json({message: "News post created.", post}); 
     } catch (error) {
-        response.status(500).json({message: "Failed to create post. ", error:error.message}); 
+        return response.status(500).json({message: "Failed to create post. ", error:error.message}); 
     }
 }; 
 
@@ -28,9 +28,9 @@ const createPost= async (request, response) => {
 const getAllPosts = async (request, response) => {
     try {
         const posts = await Post.find().populate("createdBy", "username email"); 
-        response.json({posts}) ; 
+        return response.json({posts}) ; 
     } catch (error) {
-        response.status(500).json({message: "Failed to fetch news.", error:error.message}); 
+       return response.status(500).json({message: "Failed to fetch news.", error:error.message}); 
     }
 }; 
 
@@ -41,7 +41,7 @@ const updatePost= async (request, response) => {
 
     try {
         if(!isAdmin) {
-            return response.status(403).json({message:"You are not allowed to udpate posts. "}); 
+            return response.status(403).json({message:"Invalid or expired token."}); 
 
         }
 
@@ -75,7 +75,7 @@ const deletePost = async (request, response) => {
 
         // admin and post check 
         if(!isAdmin) {
-            return response.status(403).json({message:"You are not authorized to delete posts."}); 
+            return response.status(403).json({message:"Invalid or expired token."}); 
         }
         
 

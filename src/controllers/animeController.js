@@ -79,47 +79,6 @@ const getAnimeByGenre = async (request, response) => {
     }
 }; 
 
-// Get top anime
-const getTopAnime = async (request , response) => {
-    const {type, filter, rating, sfw, page, limit} = request.query; 
-
-    try {
-
-        // query parameters
-        const params = new URLSearchParams();
-        if (type) params.append("type", type); 
-        if (filter) params.append("filter", filter); 
-        if (rating) params.append("rating", rating); 
-        if (sfw) params.append("sfw", sfw); 
-        if (page) params.append("page", page); 
-        if (limit) params.append("limit", limit); 
-        
-        // api url 
-        const apiUrl= `https://api.jikan.moe/v4/top/anime?${params.toString()}`; 
-        console.log ("API URL: ", apiUrl); 
-
-        const apiResponse = await fetch(apiUrl); 
-
-        //check response
-        if (!apiResponse.ok) {
-            throw new Error ("Failed to fetch top anime");
-
-        }
-
-        // parse json response
-        const topAnimeData = await apiResponse.json(); 
-
-        // return data
-        response.json(topAnimeData); 
-
-    } catch (error) {
-        console.error("Error in fetchin top anime"); 
-        response.status(500).json({message:error.message}); 
-    }
-   
-
-};
-
 const getRandomAnime = async (request, response) => {
     let animeData = {};
 
@@ -140,7 +99,7 @@ const getAnimeRecommendations = async (request, response) => {
 
     try {
         if(!title) {
-            return response.status(400).json({message:"Title is required to fetch recommendations. "}); 
+            return response.status(400).json({message:"Title is required to fetch recommendations."}); 
         }
 
         // search anime title to get mal_id 
@@ -184,7 +143,6 @@ const getAnimeRecommendations = async (request, response) => {
 module.exports = {
     browseAnime,
     getAnimeByGenre,
-    getTopAnime,
     getAnimeRecommendations,
     getRandomAnime
 }

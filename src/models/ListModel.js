@@ -23,7 +23,7 @@ const ListSchema = new mongoose.Schema({
             required:true
         },
     ],
-
+   
     isPublic: {
         type: Boolean,
         default: false
