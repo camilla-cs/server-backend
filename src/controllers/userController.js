@@ -3,11 +3,11 @@ const {User} = require("../models/UserModel");
 // View user profile
 const getProfile = async (request, response) => {
     try {
-        const user = await User.findById(request.params.id); 
+        const user = await User.findById(request.user.userId);
         if (!user) return response.status(404).json({message:"User not found"}); 
 
         response.json({
-            id: user.id, 
+            id: user.userId, 
             username: user.username,
             email: user.email,
             isAdmin: user.isAdmin
@@ -20,10 +20,11 @@ const getProfile = async (request, response) => {
 //Update user profile
 const updateProfile = async (request, response) => {
     const {username, email, password} = request.body; 
-    console.log("Request body: " , request.body); 
 
     try {
-        const user= await User.findById(request.params.id); 
+       
+        console.log("Request body: " , request.body); 
+        const user= await User.findById(request.user.userId); 
         
         if (!user) return response.status(404).json({message: "User not found. "}); 
 
@@ -41,7 +42,7 @@ const updateProfile = async (request, response) => {
         response.json({
             message: "Profile updated.", 
             user: {
-                id: user.id,
+                id: user.userId,
                 username: user.username,
                 email:user.email,
                 isAdmin:user.isAdmin

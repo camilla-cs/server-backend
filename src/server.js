@@ -1,31 +1,30 @@
 // Imports 
 const express = require ("express"); 
+const cors = require('cors'); 
 const { User } = require("./models/UserModel.js");
 const { generateJWT, validateUserAuth, validateAdminAuth } = require("./functions/jwtFunctions.js");
 const authRoutes = require ( "./routes/auth.js"); 
-const { getAllUsers } = require("./controllers/adminController.js");
+// const { getAllUsers } = require("./controllers/adminController.js");
 const profileRoutes = require("./routes/profileRoutes.js"); 
 const animeRoutes = require("./routes/animeRoutes.js"); 
 const listRoutes = require ("./routes/listRoutes.js"); 
+const postRoutes = require ("./routes/postRoutes.js"); 
+const { getUserLists } = require("./controllers/listController.js");
 
 const app = express(); 
 
+app.use(cors()); 
 // middleware to post json data into the server
 app.use(express.json()); 
 
 // Root route
 app.get("/", (request,response) => {
     response.json({
-        message: "Welocome to the last project!"
+        message: "Welcome to the last project!"
     });
 });
 
-// Test POST route
-app.post("/", (request, response) => {
-    response.json({
-        message:"POST request received!"
-    });
-});
+
 
 // Sign up route for user and admin 
 app.post("/signup", async (request, response) => {
@@ -38,11 +37,18 @@ app.post("/signup", async (request, response) => {
 
     // if they are invalid, throw error 
     if (!username ||!email || !password) {
-        response.status(400).json({
+        return response.status(400).json({
             message: "Incorrect or missing credentials."
         }); 
     }
-
+    
+    try {
+    // check if user already exist by email 
+        const existingUser = await User.findOne({email}); 
+        if (existingUser) {
+            return response.status(409).json({message:"Email already in use. "}); 
+        }
+        
     // make a user in the database using the username and password
     let newUser = await User.create({
         username: username, 
@@ -66,6 +72,11 @@ app.post("/signup", async (request, response) => {
             
         }
     });
+    } catch (error) {
+        console.error ("Error creating user:", error.message);
+        return response.status(500).json({message:"Server error, please try again later."}); 
+    }
+   
 });
 
 // Authentication routes
@@ -74,22 +85,22 @@ app.use ("/auth", authRoutes);
 
 // Protected route requires user auth
 app.get("/userDashboard", validateUserAuth, (request, response) => {
-    response.json({
+    return response.json({
         message:"Welcome to the user dashboard!"
     });
 }); 
 
 // Admin dashboard route (only admin)
 app.get("/adminDashboard", validateAdminAuth, (request,response) => {
-    response.json({
+    return response.json({
         message:"Welcome back, Admin!"
     }); 
 }); 
 
-
+// profile route for authenticated users
 app.use("/profile", profileRoutes); 
 
-app.get("/users", validateAdminAuth,getAllUsers); 
+
 
 
 // localhost:8080/anime/
@@ -98,6 +109,9 @@ app.use("/anime", animeRoutes);
 //list routes
 app.use("/lists", listRoutes); 
 
+app.get("/lists/user", validateUserAuth, getUserLists);
+// post routes
+app.use("/posts", postRoutes); 
 
 // export the app so other files can control when to start and end the server
 module.exports = {

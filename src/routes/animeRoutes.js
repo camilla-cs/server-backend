@@ -1,5 +1,5 @@
 const express = require('express'); 
-const { browseAnime, getAnimeGenres, getTopAnime, getAnimeRecommendations } = require('../controllers/animeController');
+const { browseAnime, getAnimeByGenre, getAnimeRecommendations, getRandomAnime } = require('../controllers/animeController');
 
 // create instance of a router
 const router = express.Router(); 
@@ -13,25 +13,11 @@ router.get('/', (request,response) => {
 
 
 // Jikan API request for random anime
-router.get("/random" , async (request, response) => {
-    let animeData = {};
+router.get("/random" , getRandomAnime);
 
-    let randomNumber = Math.floor(Math.random() * 1025) + 1; 
-    let responseData = await fetch ("https://api.jikan.moe/v4/anime/" + randomNumber);
-    animeData = await responseData.json(); 
+router.get("/browse", browseAnime); 
 
-
-    response.json({
-        result:animeData
-    })
-
-}); 
-
-router.get("/browse/", browseAnime); 
-
-router.get("/genres", getAnimeGenres); 
-
-router.get("/top", getTopAnime); 
+router.get("/genre", getAnimeByGenre); 
 
 router.get ("/recommendations", getAnimeRecommendations);
 

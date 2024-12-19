@@ -1,4 +1,14 @@
-const mongoose = require ("mongoose"); 
+const mongoose = require ("mongoose");
+ 
+
+const animeSchema = new mongoose.Schema ({
+    mal_id:{type: Number, required:true},
+    title: {type:String, required:true}, 
+    title_japanese: {type:String}, 
+    type: {type:String}, 
+    aired : {type:String}, 
+    image_url: {type:String}, 
+}); 
 
 //schema
 const ListSchema = new mongoose.Schema({
@@ -9,24 +19,11 @@ const ListSchema = new mongoose.Schema({
 
     animeTitles: [
         {
-            type:String, 
+            type:[animeSchema], 
             required:true
         },
     ],
-
-    createdBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-      
-    },
-
-    username: {
-        type:String, 
-        required:true
-
-    },
-
+   
     isPublic: {
         type: Boolean,
         default: false

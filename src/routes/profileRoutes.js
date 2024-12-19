@@ -1,13 +1,16 @@
 const express =require("express"); 
-const { validateUserAuth } = require("../functions/jwtFunctions");
+const { validateUserAuth, validateAdminAuth } = require("../functions/jwtFunctions");
 const { getProfile, updateProfile, deleteProfile } = require("../controllers/userController");
+const { getAllUsers, deleteUser } = require("../controllers/adminController");
 
 const router = express.Router(); 
 
-router.get("/:id", validateUserAuth, getProfile); 
+//user Routes
+router.get("/me", validateUserAuth, getProfile); 
 
-router.put ("/:id", validateUserAuth, updateProfile); 
+router.put ("/me", validateUserAuth, updateProfile); 
 
-router.delete("/:id", validateUserAuth, deleteProfile); 
+router.delete("/me", validateUserAuth, deleteProfile); 
+
 
 module.exports = router;
