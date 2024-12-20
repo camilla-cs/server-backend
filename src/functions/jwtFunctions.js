@@ -40,7 +40,7 @@ async function validateUserAuth (request, response, next) {
 
     try {
         const decodedData = decodeJWT(providedToken);
-        // console.log("Decoded token data:", decodedData);
+        console.log("Decoded token data:", decodedData);
 
         request.user = {
             userId: decodedData.userId,
